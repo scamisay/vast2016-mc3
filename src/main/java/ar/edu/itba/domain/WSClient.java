@@ -1,6 +1,9 @@
 package ar.edu.itba.domain;
 
+import ar.edu.itba.domain.exceptions.WSException;
+
 import javax.websocket.*;
+import java.io.IOException;
 import java.net.URI;
 
 /**
@@ -17,7 +20,33 @@ public class WSClient {
     @OnMessage
     public void onMessage(String message) {
         //the new USD rate arrives from the websocket server side.
-        System.out.println("Received msg: "+message);
+        System.out.println(message);
+    }
+
+    public void startConsuming(){
+        WebSocketContainer container=null;
+        Session session=null;
+
+        container = ContainerProvider.getWebSocketContainer();
+
+        try {
+            session=container.connectToServer(WSClient.class, URI.create(connectionURL));
+            session.getBasicRemote().sendText(token);
+        } catch (DeploymentException e) {
+            throw new WSException(e.getMessage());
+        } catch (IOException e) {
+            throw new WSException(e.getMessage());
+        }finally{
+            if(session!=null){
+                try {
+                    session.close();
+                } catch (Exception e) {
+                    throw new WSException(e.getMessage());
+                }
+            }
+        }
+
+
     }
 
 
