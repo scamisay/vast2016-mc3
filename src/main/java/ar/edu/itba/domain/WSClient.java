@@ -17,10 +17,17 @@ public class WSClient {
 
     private static Object waitLock = new Object();
 
+    private PersistentEntity persistentEntity;
+
+    public WSClient(){}
+
+    public WSClient(final PersistentEntity persistentEntity) {
+        this.persistentEntity = persistentEntity;
+    }
+
     @OnMessage
     public void onMessage(String message) {
-        //the new USD rate arrives from the websocket server side.
-        System.out.println(message);
+        persistentEntity.saveMessage(message);
     }
 
     public void startConsuming(){
@@ -32,6 +39,7 @@ public class WSClient {
         try {
             session=container.connectToServer(WSClient.class, URI.create(connectionURL));
             session.getBasicRemote().sendText(token);
+            wait4TerminateSignal();
         } catch (DeploymentException e) {
             throw new WSException(e.getMessage());
         } catch (IOException e) {
