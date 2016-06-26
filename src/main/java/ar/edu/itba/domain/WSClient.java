@@ -1,6 +1,9 @@
 package ar.edu.itba.domain;
 
 import ar.edu.itba.domain.exceptions.WSException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.stereotype.Service;
 
 import javax.websocket.*;
 import java.io.IOException;
@@ -9,6 +12,7 @@ import java.net.URI;
 /**
  * Created by scamisay on 08/06/16.
  */
+@Service
 @ClientEndpoint
 public class WSClient {
 
@@ -19,9 +23,10 @@ public class WSClient {
 
     private PersistentEntity persistentEntity;
 
-    public WSClient(){}
+/*    public WSClient(){}*/
 
-    public WSClient(final PersistentEntity persistentEntity) {
+    @Autowired
+    public WSClient(PersistentEntity persistentEntity) {
         this.persistentEntity = persistentEntity;
     }
 
@@ -37,7 +42,7 @@ public class WSClient {
         container = ContainerProvider.getWebSocketContainer();
 
         try {
-            session=container.connectToServer(WSClient.class, URI.create(connectionURL));
+            session=container.connectToServer(this, URI.create(connectionURL));
             session.getBasicRemote().sendText(token);
             wait4TerminateSignal();
         } catch (DeploymentException e) {

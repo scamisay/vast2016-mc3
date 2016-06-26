@@ -1,6 +1,8 @@
 package ar.edu.itba.domain.impl;
 
 import ar.edu.itba.domain.PersistentEntity;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -13,13 +15,14 @@ import java.util.stream.Stream;
 /**
  * Created by scamisay on 15/06/16.
  */
+@Repository
 public class FilePersistentEntity implements PersistentEntity {
 
     private String fileName;
     private Map<Date,String> map;
 
-    public FilePersistentEntity(String fileName){
-        this.fileName = fileName;
+    public FilePersistentEntity(){
+        this.fileName = "webSocketDump.data";
         this.map = new HashMap<>();
     }
 
