@@ -1,6 +1,9 @@
 package ar.edu.itba.domain;
 
 import ar.edu.itba.domain.exceptions.WSException;
+import ar.edu.itba.repository.ChunkRepository;
+import ar.edu.itba.repository.DataRepository;
+import ar.edu.itba.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Service;
@@ -8,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Date;
 
 /**
  * Created by scamisay on 08/06/16.
@@ -21,18 +25,22 @@ public class WSClient {
 
     private static Object waitLock = new Object();
 
-    private PersistentEntity persistentEntity;
+    @Autowired
+    private DataService dataService;
+//    private PersistentEntity persistentEntity;
 
 /*    public WSClient(){}*/
 
     @Autowired
-    public WSClient(PersistentEntity persistentEntity) {
-        this.persistentEntity = persistentEntity;
+    public WSClient(DataService dataService) {
+        this.dataService = dataService;
     }
 
     @OnMessage
     public void onMessage(String message) {
-        persistentEntity.saveMessage(message);
+        //persistentEntity.saveMessage(message);
+        Chunk aChunk = new Chunk(new Date(), message);
+        dataService.save(aChunk);
     }
 
     public void startConsuming(){
