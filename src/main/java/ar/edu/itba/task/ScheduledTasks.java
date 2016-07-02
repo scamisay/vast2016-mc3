@@ -21,9 +21,9 @@ public class ScheduledTasks {
 
     @Scheduled(fixedRate = 5000)
     public void reportCurrentTime() {
-        if(!isConsumming){
+        /*if(!isConsumming){
             isConsumming = true;
             wsClient.startConsuming();
-        }
+        }*/
     }
 }
