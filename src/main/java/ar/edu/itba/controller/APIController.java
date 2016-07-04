@@ -39,7 +39,7 @@ public class APIController {
         List<Point> points = dataService.findDataByVariable(variable, fromDate, toDate);
         return mapper.writeValueAsString(points);
     }
-    //http://localhost:8080/values?variable=F_1_Z_4:%20Thermostat%20Heating%20Setpoint&from=2016-06-15:1&to=2016-06-15:3
+    //http://localhost:8080/api/values?variable=F_1_Z_4:%20Thermostat%20Heating%20Setpoint&from=2016-06-15:1&to=2016-06-15:3
     //http://localhost:8080/api/variables
 
 }
