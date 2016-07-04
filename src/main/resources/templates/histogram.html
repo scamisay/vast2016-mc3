@@ -47,19 +47,14 @@
 
 
 <script src="https://code.jquery.com/jquery-3.0.0.js"></script>
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>-->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
 
 <script src="https://d3js.org/d3.v4.min.js"></script>
 
 <script>
 
-    //cargo comportamiento para componentes
-   // $("#variables").select2();
     $('#variables').chosen();
 
 
@@ -73,22 +68,15 @@
     }
 
 
+
     function process_v_g(variable, graphType){
         $.ajax({
-            url : "/process",
+            url : "/processHistogram",
             type: "POST",
             data : {variable: variable},
             success: function(data){
                 var title = variable;
-                var containerId = '#chart_container';
-                var numcharts = $('.chartsContainerMC3').length;
-                var chartsContainerId = 'charts_container_'+(numcharts+1);
-
-                //lo creo
-                $(containerId).append('<div id="'+chartsContainerId+'" class="float: left; chartsContainerMC3" style="min-width: 310px; height: 400px; margin: 0 auto"></div>');
-
-                draw(data, title, '#'+chartsContainerId);
-                drawHistogram(data, title, '#'+chartsContainerId);
+                drawHistogram(data, title);
             }
         });
     }
@@ -96,7 +84,7 @@
     function process(){
         var graphType = "1";
 
-        $('.chartsContainerMC3').remove();
+        $('.chartMC3').remove();
 
         var variables = variablesSelected();
         $(variables).each(function(i,v){

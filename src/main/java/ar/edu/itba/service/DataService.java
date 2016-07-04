@@ -39,6 +39,7 @@ public class DataService {
         return dataRepository.findAll().stream()
                 .map(d -> d.getKey())
                 .distinct()
+                .sorted()
                 .collect(Collectors.toList());
     }
 

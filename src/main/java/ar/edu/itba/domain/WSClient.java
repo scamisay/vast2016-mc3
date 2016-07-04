@@ -27,9 +27,6 @@ public class WSClient {
 
     @Autowired
     private DataService dataService;
-//    private PersistentEntity persistentEntity;
-
-/*    public WSClient(){}*/
 
     @Autowired
     public WSClient(DataService dataService) {
@@ -79,7 +76,7 @@ public class WSClient {
         }
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         WebSocketContainer container=null;
         Session session=null;
         try{
@@ -102,6 +99,6 @@ public class WSClient {
                 }
             }
         }
-    }
+    }*/
 
 }

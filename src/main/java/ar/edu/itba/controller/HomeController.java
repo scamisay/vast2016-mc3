@@ -26,9 +26,7 @@ public class HomeController {
 
     @RequestMapping("/")
     public ModelAndView home() {
-
         List<String> variables = dataService.findAllVariables();
-
         ModelAndView mav = new ModelAndView();
         mav.setViewName("home");
         mav.addObject("variables", variables);
@@ -41,6 +39,25 @@ public class HomeController {
         ObjectMapper mapper = new ObjectMapper();
         List<Point> points = dataService.findDataByVariable(variable);
         return mapper.writeValueAsString(points);
+    }
+
+    @RequestMapping("/histogram")
+    public ModelAndView histogram() {
+        List<String> variables = dataService.findAllVariables();
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("histogram");
+        mav.addObject("variables", variables);
+        return mav;
+    }
+
+    @RequestMapping(value="/processHistogram", method = RequestMethod.POST)
+    @ResponseBody
+    public String processHistogram(@ModelAttribute(value = "variable") String variable) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        List<Double> values = dataService.findDataByVariable(variable)
+                .stream().map( p -> p.getValue())
+                .collect(Collectors.toList());
+        return mapper.writeValueAsString(values);
     }
 
 }

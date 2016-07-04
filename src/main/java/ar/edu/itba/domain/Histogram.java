@@ -65,9 +65,9 @@ public class Histogram {
     }
 
 
-    public static void main(String args[]){
+   /* public static void main(String args[]){
         List<Double> values = Arrays.asList(5.2, 8.8, 81.5, 45.5, 1.2, 351.1, 53.5 , 45.55, 89.0,23.2, 42.881,12.201,9.5);
         Histogram hist = new Histogram(values);
         hist.build();
-    }
+    }*/
 }

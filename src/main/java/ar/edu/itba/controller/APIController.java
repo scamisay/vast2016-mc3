@@ -18,7 +18,8 @@ import java.util.List;
  * Created by scamisay on 03/07/16.
  */
 
-@RestController("api")
+@RestController
+@RequestMapping("api")
 public class APIController {
 
     @Autowired
@@ -31,13 +32,14 @@ public class APIController {
 
     @RequestMapping("values")
     public String process(@ModelAttribute(value = "variable") String variable,
-                          @RequestParam("from") @DateTimeFormat(pattern="yyyy-MM-dd:HH") Date fromDate,
-                          @RequestParam("to") @DateTimeFormat(pattern="yyyy-MM-dd:HH") Date toDate
+                          @RequestParam(value = "from", required = false) @DateTimeFormat(pattern="yyyy-MM-dd:HH") Date fromDate,
+                          @RequestParam(value = "to", required = false) @DateTimeFormat(pattern="yyyy-MM-dd:HH") Date toDate
                           ) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         List<Point> points = dataService.findDataByVariable(variable, fromDate, toDate);
         return mapper.writeValueAsString(points);
     }
-    //http://localhost.com:8080/values?variable=F_1_Z_4:%20Thermostat%20Heating%20Setpoint&from=2016-05-30:10&to=2016-08-14:18
+    //http://localhost:8080/values?variable=F_1_Z_4:%20Thermostat%20Heating%20Setpoint&from=2016-06-15:1&to=2016-06-15:3
+    //http://localhost:8080/api/variables
 
 }
