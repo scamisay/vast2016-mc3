@@ -1,0 +1,10 @@
+#cargo la base en mongodb
+tar xvfz mc3-prod.tar.gz
+mongorestore --db mc3-prod mc3-prod/
+
+
+#setear JAVA_HOME con Java 8 de no estar seteado
+#Ej: export JAVA_HOME=/usr/lib/jvm/java-8-oracle
+
+#realiza un deploy de la aplicación
+mvn spring-boot:run
