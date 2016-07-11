@@ -20,7 +20,7 @@ import java.util.Date;
 @ClientEndpoint
 public class WSClient {
 
-    private static final String token = "{\"uid\":\"scamisay@itba.edu.ar\",\"test\":true}";
+    private static final String token = "{\"uid\":\"scamisay@itba.edu.ar\",\"test\":false}";
     private static final String connectionURL = "ws://vast2016.labworks.org:80";
 
     private static Object waitLock = new Object();
@@ -38,6 +38,7 @@ public class WSClient {
         //persistentEntity.saveMessage(message);
         Chunk aChunk = new Chunk(new Date(), message);
         dataService.save(aChunk);
+        System.out.println("RECEIVED: "+message);
     }
 
     public void startConsuming(){
@@ -51,14 +52,17 @@ public class WSClient {
             session.getBasicRemote().sendText(token);
             wait4TerminateSignal();
         } catch (DeploymentException e) {
+            System.out.println("ERROR: "+e);
             throw new WSException(e.getMessage());
         } catch (IOException e) {
+            System.out.println("ERROR: "+e);
             throw new WSException(e.getMessage());
         }finally{
             if(session!=null){
                 try {
                     session.close();
                 } catch (Exception e) {
+                    System.out.println("ERROR: "+e);
                     throw new WSException(e.getMessage());
                 }
             }
@@ -72,7 +76,9 @@ public class WSClient {
         synchronized(waitLock) {
             try {
                 waitLock.wait();
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException e) {
+                System.out.println("ERROR: "+e);
+            }
         }
     }
 
